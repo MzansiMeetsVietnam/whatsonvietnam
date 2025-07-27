@@ -1,304 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>What's On Vietnam</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/winwheel@2.7.0/Winwheel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #fdfdfd;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .wheel-container {
+      perspective: 1000px;
+    }
+    .wheel {
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      border-radius: 50%;
+      border: 5px solid #333;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: spin 20s linear infinite;
+    }
+    .wheel .segment {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 0 0;
+      background-color: #f97316;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      border: 1px solid #fff;
+    }
+    @keyframes spin {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+  </style>
 </head>
-
-<body class="bg-gray-50 text-gray-800">
-  <header class="bg-red-600 text-white p-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">What's On Vietnam</h1>
-      <nav class="space-x-4">
-        <a href="#" class="hover:underline">Home</a>
-        <a href="#wheel" class="hover:underline">Spin the Wheel</a>
-        <a href="#destinations" class="hover:underline">Destinations</a>
-        <a href="#tips" class="hover:underline">Travel Tips</a>
-        <a href="#tours" class="hover:underline">Tours</a>
-        <a href="#booking" class="hover:underline">Book Flights & Hotels</a>
-        <a href="#contact" class="hover:underline">Contact</a>
-      </nav>
-    </div>
+<body class="text-gray-800">
+  <header class="text-center py-8 bg-orange-500 text-white">
+    <h1 class="text-4xl font-bold">What's On Vietnam</h1>
+    <p class="text-lg mt-2">Explore Top Destinations, Book Tours, Flights & Hotels</p>
   </header>
 
-  <main class="container mx-auto p-6">
-    <!-- Spinning Wheel Section -->
-    <section id="wheel" class="mb-10 text-center">
-      <h2 class="text-3xl font-bold mb-6">Spin the Wheel & Discover Vietnam</h2>
-      <canvas id="spinWheel" width="400" height="400" style="margin: 0 auto; display: block;"></canvas>
-      <button id="spinButton" class="mt-6 bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700">Spin the Wheel</button>
-      <div id="result" class="mt-4 text-xl font-semibold"></div>
-    </section>
+  <!-- Booking Links -->
+  <div class="flex justify-center gap-4 my-6">
+    <a href="https://www.booking.com/index.html" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book Hotels</a>
+    <a href="https://www.skyscanner.com" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Find Flights</a>
+  </div>
 
-    <!-- Destinations Section -->
-    <section id="destinations" class="mb-10">
-      <h2 class="text-3xl font-bold mb-4">Top 10 Destinations in Vietnam</h2>
-      <p class="mb-6">
-        Discover the must-see destinations across Vietnam—from bustling cities to tranquil islands. We'll update this
-        list regularly with new experiences and hidden gems to explore.
-      </p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- 3D Spinning Wheel for Top Destinations -->
+  <section class="wheel-container my-10">
+    <div class="wheel">
+      <div class="segment" style="transform: rotate(0deg) translate(-100%, -100%)">Phu Quoc</div>
+      <div class="segment" style="transform: rotate(45deg) translate(-100%, -100%)">Hanoi</div>
+      <div class="segment" style="transform: rotate(90deg) translate(-100%, -100%)">Da Nang</div>
+      <div class="segment" style="transform: rotate(135deg) translate(-100%, -100%)">Hoi An</div>
+      <div class="segment" style="transform: rotate(180deg) translate(-100%, -100%)">Sapa</div>
+      <div class="segment" style="transform: rotate(225deg) translate(-100%, -100%)">Nha Trang</div>
+      <div class="segment" style="transform: rotate(270deg) translate(-100%, -100%)">Hue</div>
+      <div class="segment" style="transform: rotate(315deg) translate(-100%, -100%)">Mui Ne</div>
+    </div>
+  </section>
 
-        <!-- Hanoi -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?hanoi,vietnam" alt="Hanoi" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Hanoi</h3>
-          <p>Vietnam's capital blends centuries-old architecture with vibrant street culture.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Explore Old Quarter</li>
-            <li>Visit Hoan Kiem Lake</li>
-            <li>Try Egg Coffee</li>
-          </ul>
-        </div>
-
-        <!-- Ha Long Bay -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?halong-bay,vietnam" alt="Ha Long Bay" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Ha Long Bay</h3>
-          <p>World-famous limestone islands and emerald waters—perfect for cruising and kayaking.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Cruise the Bay</li>
-            <li>Kayak between islands</li>
-            <li>Visit Caves</li>
-          </ul>
-        </div>
-
-        <!-- Hoi An -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?hoian,vietnam" alt="Hoi An" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Hoi An</h3>
-          <p>A UNESCO heritage town known for lantern-lit streets and traditional charm.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Lantern Festival</li>
-            <li>Tailor-made Clothes</li>
-            <li>Ancient Town Walk</li>
-          </ul>
-        </div>
-
-        <!-- Ho Chi Minh City -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?hochiminh,vietnam" alt="Ho Chi Minh City" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Ho Chi Minh City</h3>
-          <p>The bustling southern metropolis known for its vibrant nightlife and rich history.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Visit War Remnants Museum</li>
-            <li>Explore Ben Thanh Market</li>
-            <li>Enjoy Rooftop Bars</li>
-          </ul>
-        </div>
-
-        <!-- Da Nang -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?danang,vietnam" alt="Da Nang" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Da Nang</h3>
-          <p>Modern city famous for its sandy beaches, Dragon Bridge, and proximity to heritage sites.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Walk Dragon Bridge at Night</li>
-            <li>Relax on My Khe Beach</li>
-            <li>Visit Marble Mountains</li>
-          </ul>
-        </div>
-
-        <!-- Nha Trang -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?nhatrang,vietnam" alt="Nha Trang" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Nha Trang</h3>
-          <p>Popular coastal city with beautiful beaches, water sports, and vibrant nightlife.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Snorkel and Dive</li>
-            <li>Relax on the Beach</li>
-            <li>Enjoy Night Markets</li>
-          </ul>
-        </div>
-
-        <!-- Sapa -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?sapa,vietnam" alt="Sapa" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Sapa</h3>
-          <p>Mountain town known for stunning terraced rice fields and ethnic minority cultures.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Trek the Rice Terraces</li>
-            <li>Visit Hill Tribe Villages</li>
-            <li>See Fansipan Mountain</li>
-          </ul>
-        </div>
-
-        <!-- Hue -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?hue,vietnam" alt="Hue" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Hue</h3>
-          <p>Historic city famous for its Imperial Citadel and royal tombs.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Visit Imperial Citadel</li>
-            <li>Explore Royal Tombs</li>
-            <li>Try Hue Cuisine</li>
-          </ul>
-        </div>
-
-        <!-- Phu Quoc -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?phuquoc,vietnam" alt="Phu Quoc" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Phu Quoc</h3>
-          <p>Island paradise known for its pristine beaches, snorkeling, and fresh seafood.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Relax on Long Beach</li>
-            <li>Snorkel in An Thoi Islands</li>
-            <li>Visit Pepper Farms</li>
-          </ul>
-        </div>
-
-        <!-- Mekong Delta -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-          <img src="https://source.unsplash.com/600x400/?mekong,vietnam" alt="Mekong Delta" class="w-full h-48 object-cover mb-3" />
-          <h3 class="text-xl font-semibold mb-2">Mekong Delta</h3>
-          <p>The "Rice Bowl" of Vietnam with floating markets, lush greenery, and river life.</p>
-          <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-            <li>Visit Floating Markets</li>
-            <li>Boat Ride through Canals</li>
-            <li>Explore Fruit Orchards</li>
-          </ul>
-        </div>
+  <!-- Tour Section -->
+  <section class="text-center py-10 bg-gray-100">
+    <h2 class="text-3xl font-bold mb-4">What's On Vietnam Tours</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Phu Quoc 3 Island VIP Tour</h3>
+        <p>Snorkel, sunbathe, and enjoy BBQ on hidden island beaches.</p>
       </div>
-    </section>
-
-    <!-- Travel Tips Section -->
-    <section id="tips" class="mb-10">
-      <h2 class="text-2xl font-bold mb-4">Vietnam Travel Tips</h2>
-      <ul class="list-disc pl-6 space-y-2">
-        <li>Always carry cash—many places don't accept cards.</li>
-        <li>Try the local street food—it’s safe and delicious!</li>
-        <li>Use Grab or Be for cheap and reliable transport.</li>
-      </ul>
-    </section>
-
-    <!-- Tours Section -->
-    <section id="tours" class="mb-10">
-      <h2 class="text-2xl font-bold mb-4">What's On Vietnam Tours</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <div class="bg-white rounded-xl shadow-md p-4">
-          <h3 class="text-xl font-semibold mb-2">Boat BBQ Sunset Tour</h3>
-          <p>Enjoy a relaxing evening on the water with a traditional BBQ, beautiful sunset views, and island vibes. Includes pick-up, food, drinks, and music.</p>
-          <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" class="inline-block mt-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Book via WhatsApp</a>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-4">
-          <h3 class="text-xl font-semibold mb-2">Secret Island Adventure</h3>
-          <p>Private speedboat ride to a secluded island, snorkel, braai, chill and dance with optional live music or DJ add-on. Bookable by WhatsApp.</p>
-          <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" class="inline-block mt-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Book via WhatsApp</a>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-4">
-          <h3 class="text-xl font-semibold mb-2">Sunset Tour in Saigon</h3>
-          <p>Relax and enjoy great cocktails on a beautiful sunset cruise in Saigon — no BBQ included.</p>
-          <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" class="inline-block mt-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Book via WhatsApp</a>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-4">
-          <h3 class="text-xl font-semibold mb-2">Bike and Camp Trips in the South</h3>
-          <p>Explore Southern Vietnam by bike and camp under the stars on this adventurous and unique tour.</p>
-          <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" class="inline-block mt-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Book via WhatsApp</a>
-        </div>
-
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Phu Quoc Squid Fishing</h3>
+        <p>Nighttime fun catching squid with locals under the stars.</p>
       </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section id="booking" class="mb-10">
-      <h2 class="text-2xl font-bold mb-4">Book Flights & Hotels</h2>
-      <div class="flex space-x-4">
-        <a href="https://www.booking.com/index.html" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book Hotels</a>
-        <a href="https://www.skyscanner.com" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Find Flights</a>
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Phu Quoc Hidden Gems Trip</h3>
+        <p>Visit waterfalls, local farms, and off-grid beaches.</p>
       </div>
-    </section>
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Starfish Beach & Safari Tour</h3>
+        <p>See starfish shores and visit Vinpearl Safari Park.</p>
+      </div>
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Cable Car & Fireworks Tour</h3>
+        <p>Ride the world's longest cable car and watch evening fireworks.</p>
+      </div>
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Scuba Diving – Phu Quoc</h3>
+        <p>Discover coral reefs and marine life in clear waters.</p>
+      </div>
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Scuba Diving – Nha Trang</h3>
+        <p>Explore the deep with experienced dive instructors in Nha Trang.</p>
+      </div>
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Saigon Sunset Cocktail Cruise</h3>
+        <p>Chill on the river with craft cocktails and city views.</p>
+      </div>
+      <div class="p-4 border rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Bike & Camp Vietnam South</h3>
+        <p>Rural trails, peaceful campsites, and local adventures.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-      <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
-      <form class="bg-white p-6 rounded-xl shadow-md">
-        <div class="mb-4">
-          <label class="block mb-2 font-medium">Name</label>
-          <input type="text" class="w-full p-2 border border-gray-300 rounded" required />
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-medium">Email</label>
-          <input type="email" class="w-full p-2 border border-gray-300 rounded" required />
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-medium">Message</label>
-          <textarea class="w-full p-2 border border-gray-300 rounded" rows="4" required></textarea>
-        </div>
-        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Send</button>
-      </form>
-    </section>
-  </main>
+  <!-- WhatsApp Contact -->
+  <div class="fixed bottom-6 right-6">
+    <a href="https://wa.me/27794720078" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-12 h-12" alt="WhatsApp Contact">
+    </a>
+  </div>
 
-  <footer class="bg-gray-100 text-center p-4 mt-10 text-sm text-gray-600">
+  <!-- Footer -->
+  <footer class="text-center py-6 text-sm text-gray-600">
     &copy; 2025 What's On Vietnam. All rights reserved.
   </footer>
-
-  <script>
-    const mustDos = {
-      Hanoi: ["Explore Old Quarter", "Visit Hoan Kiem Lake", "Try Egg Coffee"],
-      "Ha Long Bay": ["Cruise the Bay", "Kayak between islands", "Visit Caves"],
-      "Hoi An": ["Lantern Festival", "Tailor-made Clothes", "Ancient Town Walk"],
-      "Ho Chi Minh City": [
-        "Visit War Remnants Museum",
-        "Explore Ben Thanh Market",
-        "Enjoy Rooftop Bars",
-      ],
-      "Da Nang": [
-        "Walk Dragon Bridge at Night",
-        "Relax on My Khe Beach",
-        "Visit Marble Mountains",
-      ],
-      "Nha Trang": ["Snorkel and Dive", "Relax on the Beach", "Enjoy Night Markets"],
-      Sapa: ["Trek the Rice Terraces", "Visit Hill Tribe Villages", "See Fansipan Mountain"],
-      Hue: ["Visit Imperial Citadel", "Explore Royal Tombs", "Try Hue Cuisine"],
-      "Phu Quoc": ["Relax on Long Beach", "Snorkel in An Thoi Islands", "Visit Pepper Farms"],
-      "Mekong Delta": ["Visit Floating Markets", "Boat Ride through Canals", "Explore Fruit Orchards"],
-    };
-
-    let wheel = new Winwheel({
-      numSegments: 10,
-      segments: [
-        { fillStyle: "#eae56f", text: "Hanoi" },
-        { fillStyle: "#89f26e", text: "Ha Long Bay" },
-        { fillStyle: "#7de6ef", text: "Hoi An" },
-        { fillStyle: "#e7706f", text: "Ho Chi Minh City" },
-        { fillStyle: "#eae56f", text: "Da Nang" },
-        { fillStyle: "#89f26e", text: "Nha Trang" },
-        { fillStyle: "#7de6ef", text: "Sapa" },
-        { fillStyle: "#e7706f", text: "Hue" },
-        { fillStyle: "#eae56f", text: "Phu Quoc" },
-        { fillStyle: "#89f26e", text: "Mekong Delta" },
-      ],
-      animation: {
-        type: "spinToStop",
-        duration: 5,
-        spins: 8,
-        callbackFinished: alertPrize,
-      },
-    });
-
-    function alertPrize(indicatedSegment) {
-      const place = indicatedSegment.text;
-      const dos = mustDos[place].map((d) => `• ${d}`).join("<br>");
-      document.getElementById(
-        "result"
-      ).innerHTML = `<strong>${place}</strong><br>Top 3 Must Dos:<br>${dos}`;
-    }
-
-    document
-      .getElementById("spinButton")
-      .addEventListener("click", function () {
-        wheel.startAnimation();
-      });
-  </script>
 </body>
-
 </html>
