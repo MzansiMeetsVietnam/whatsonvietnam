@@ -1,108 +1,337 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsOnVietnam - Book Tours, Eat, Party & Explore</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WhatsOnVietnam - Spin & Discover Tours</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: #f9fafb;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(90deg, #ef4444, #3b82f6); /* red to blue */
+      padding: 1.5rem 1rem;
+      text-align: center;
+      color: white;
+      box-shadow: 0 3px 10px rgb(239 68 68 / 0.7);
+      user-select: none;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    header h1 {
+      font-weight: 900;
+      font-size: 2.5rem;
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    header p {
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    .booking-links {
+      max-width: 800px;
+      margin: 1rem auto 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .booking-links a {
+      background: linear-gradient(45deg, #ef4444, #3b82f6);
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 10px rgb(59 130 246 / 0.6);
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      text-decoration: none;
+      user-select: none;
+      text-align: center;
+    }
+    .booking-links a:hover {
+      box-shadow: 0 6px 15px rgb(239 68 68 / 0.8);
+      transform: translateY(-3px);
+    }
+
+    /* Wheel container */
+    .wheel-container {
+      margin: 2rem auto 4rem;
+      max-width: 320px;
+      position: relative;
+      user-select: none;
+    }
+    /* Wheel */
+    .wheel {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 10px solid #22c55e; /* green-500 */
+      box-shadow: 0 0 30px rgb(34 197 94 / 0.6);
+      position: relative;
+      transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+      cursor: pointer;
+      margin: 0 auto;
+      background: conic-gradient(
+        #22c55e 0deg 40deg,
+        #16a34a 40deg 80deg,
+        #22c55e 80deg 120deg,
+        #16a34a 120deg 160deg,
+        #22c55e 160deg 200deg,
+        #16a34a 200deg 240deg,
+        #22c55e 240deg 280deg,
+        #16a34a 280deg 320deg,
+        #22c55e 320deg 360deg
+      );
+    }
+    /* Segments text container */
+    .segment {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      top: 50%;
+      left: 50%;
+      transform-origin: 0% 0%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: white;
+      text-shadow: 0 0 4px rgba(0,0,0,0.7);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1.2;
+      max-width: 45%;
+    }
+    /* Pointer */
+    .pointer {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 35px solid #22c55e;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+      z-index: 10;
+      user-select: none;
+    }
+    /* Spin button */
+    #spinBtn {
+      display: block;
+      margin: 1rem auto 3rem;
+      background: #ef4444; /* red */
+      color: white;
+      font-weight: 800;
+      font-size: 1.15rem;
+      padding: 0.75rem 3rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 15px rgb(239 68 68 / 0.7);
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease, transform 0.15s ease;
+    }
+    #spinBtn:hover:not(:disabled) {
+      background-color: #b91c1c; /* darker red */
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgb(185 28 28 / 0.8);
+    }
+    #spinBtn:disabled {
+      background-color: #fca5a5;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    /* Tours list */
+    .tours-list {
+      max-width: 900px;
+      margin: 0 auto 5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 1.25rem;
+      padding: 0 1rem;
+    }
+    .tour-card {
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+      padding: 1rem 1.25rem;
+      transition: transform 0.3s ease;
+      cursor: default;
+      user-select: none;
+      font-size: 0.95rem;
+      color: #111;
+    }
+    .tour-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgb(0 0 0 / 0.15);
+    }
+    .tour-card h4 {
+      color: #3b82f6; /* blue */
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      font-size: 1.15rem;
+    }
+    .tour-card.highlighted {
+      border: 3px solid #16a34a; /* green-700 */
+      box-shadow: 0 0 20px #16a34a;
+      background-color: #bbf7d0;
+      color: #14532d;
+    }
+    /* Footer */
+    footer {
+      background: #1e293b;
+      color: #cbd5e1;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      user-select: none;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+    footer a {
+      color: #60a5fa;
+      text-decoration: underline;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <header class="bg-green-700 text-white p-6 shadow-lg">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">WhatsOnVietnam</h1>
-      <nav class="space-x-4">
-        <a href="#booking" class="hover:underline">Book</a>
-        <a href="#destinations" class="hover:underline">Destinations</a>
-        <a href="#awards" class="hover:underline">Top Picks</a>
-        <a href="#contact" class="hover:underline">Contact</a>
-      </nav>
-    </div>
+<body>
+
+  <header>
+    <h1>WhatsOnVietnam</h1>
+    <p>Discover the best tours, food, bars & experiences in Vietnam</p>
   </header>
 
-  <main class="max-w-5xl mx-auto p-6">
-    <section class="text-center py-10">
-      <h2 class="text-3xl font-bold mb-4">Vietnam's Best Restaurants, Bars, Tours & Experiences</h2>
-      <p class="text-lg text-gray-700">Explore hidden gems and award-winning hotspots with WhatsOnVietnam</p>
+  <section class="booking-links" aria-label="Hotel and Flight Booking Links">
+    <a href="https://www.booking.com/index.html" target="_blank" rel="noopener" aria-label="Book Hotels on Booking.com">Book Hotels</a>
+    <a href="https://www.skyscanner.com" target="_blank" rel="noopener" aria-label="Find Flights on Skyscanner">Find Flights</a>
+  </section>
+
+  <main>
+    <!-- Tours list -->
+    <section aria-label="Tours list" class="tours-list" id="toursList">
+      <!-- JS fills cards here -->
     </section>
 
-    <section id="booking" class="p-6 bg-white shadow-md rounded-xl max-w-xl mx-auto mt-10">
-      <h2 class="text-xl font-bold mb-4 text-center text-gray-800">Book Your Trip</h2>
-      <form id="bookingForm" class="space-y-4">
-        <input type="text" name="name" placeholder="Your Name" required class="w-full border rounded p-2" />
-        <input type="email" name="email" placeholder="Your Email" required class="w-full border rounded p-2" />
-        <input type="text" name="country" placeholder="Your Country" required class="w-full border rounded p-2" />
-        <input type="date" name="travel_date" required class="w-full border rounded p-2" />
-        <textarea name="message" placeholder="Tell us about your trip..." required class="w-full border rounded p-2"></textarea>
-        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">Send Booking</button>
-        <p id="formStatus" class="text-center text-sm mt-2 text-green-700 hidden">Thanks! We’ll contact you soon. 🇿🇦✈️🇻🇳</p>
-      </form>
-    </section>
-
-    <section id="destinations" class="mt-16">
-      <h2 class="text-2xl font-bold text-center mb-6">Top Destinations</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <a href="phu-quoc.html" class="bg-white p-4 rounded shadow hover:shadow-lg transition">Phu Quoc</a>
-        <a href="nha-trang.html" class="bg-white p-4 rounded shadow hover:shadow-lg transition">Nha Trang</a>
-        <a href="dalat.html" class="bg-white p-4 rounded shadow hover:shadow-lg transition">Dalat</a>
-        <a href="da-nang.html" class="bg-white p-4 rounded shadow hover:shadow-lg transition">Da Nang</a>
-        <a href="hue.html" class="bg-white p-4 rounded shadow hover:shadow-lg transition">Hue</a>
-        <a href="ha-long-bay.html" class="bg-white p-4 rounded shadow hover:shadow-lg transition">Ha Long Bay</a>
-      </div>
-    </section>
-
-    <section id="awards" class="mt-20">
-      <h2 class="text-2xl font-bold text-center mb-6">🏆 Award-Winning Experiences in Vietnam</h2>
-      <ul class="space-y-4 text-center text-lg">
-        <li><strong>Drinking & Nightlife:</strong> The Deck Saigon (World's 50 Best Discovery)</li>
-        <li><strong>Street Food:</strong> Bun Cha Huong Lien in Hanoi – visited by Obama & Bourdain</li>
-        <li><strong>Luxury Dining:</strong> Anan Saigon – Michelin-starred modern Vietnamese</li>
-        <li><strong>Adventure:</strong> Son Doong – World's largest cave (Phong Nha)</li>
-        <li><strong>Beach Paradise:</strong> Phu Quoc – Crystal waters, BBQ tours, secret islands</li>
-      </ul>
+    <!-- Wheel spin -->
+    <section class="wheel-container" aria-label="Spin the wheel to discover a tour">
+      <div class="pointer" aria-hidden="true"></div>
+      <div class="wheel" id="wheel" tabindex="0" role="list" aria-live="polite" aria-atomic="true"></div>
+      <button id="spinBtn" aria-label="Spin the wheel to randomly select a tour">Spin the Wheel 🎡</button>
     </section>
   </main>
 
-  <footer id="contact" class="bg-gray-800 text-white p-6 mt-10">
-    <div class="max-w-5xl mx-auto text-center">
-      <p>Contact us via WhatsApp: <a href="https://wa.me/27794720078" class="underline">+27 79 472 0078</a></p>
-      <p>Email: hello@whatsonvietnam.com</p>
-      <p>&copy; 2025 WhatsOnVietnam. All rights reserved.</p>
-    </div>
+  <footer>
+    <p>Contact us via WhatsApp: <a href="https://wa.me/27794720078" target="_blank" rel="noopener">+27 79 472 0078</a></p>
+    <p>Email: hello@whatsonvietnam.com</p>
+    <p>&copy; 2025 WhatsOnVietnam. All rights reserved.</p>
   </footer>
 
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwNR22wNjm2B89GdLqlTL6glnaAi0NZtAPIQV_MMSff8iTppSJeLYErpEcE2HSlfVo5vQ/exec';
-    const form = document.getElementById('bookingForm');
-    const status = document.getElementById('formStatus');
+<script>
+  // Data of tours (you can add more)
+  const tours = [
+    { place: "Phu Quoc 3 Island VIP Tour", desc: "Snorkel, sunbathe, and enjoy BBQ on hidden island beaches." },
+    { place: "Phu Quoc Squid Fishing", desc: "Nighttime squid catching adventure with locals." },
+    { place: "Phu Quoc Hidden Gems Trip", desc: "Waterfalls, local farms, and off-grid beaches." },
+    { place: "Starfish Beach & Safari Tour", desc: "Explore starfish shores and visit Vinpearl Safari Park." },
+    { place: "Cable Car & Fireworks Tour", desc: "Ride the world’s longest cable car and watch evening fireworks." },
+    { place: "Scuba Diving – Phu Quoc", desc: "Discover vibrant coral reefs and marine life." },
+    { place: "Scuba Diving – Nha Trang", desc: "Explore deep waters with experienced dive instructors." },
+    { place: "City Food Tour – Nha Trang", desc: "Taste the best street food & seafood." },
+    { place: "Beach & Island Hopping – Nha Trang", desc: "Visit nearby islands for snorkeling and relaxation." },
+    { place: "Nature & Waterfalls Tour – Dalat", desc: "Visit stunning waterfalls and pine forests." },
+    { place: "City Highlights – Dalat", desc: "Explore local markets and French colonial architecture." },
+    { place: "City & Beach Tour – Da Nang", desc: "Visit My Khe Beach and Dragon Bridge." },
+    { place: "Bar Crawl – Da Nang", desc: "Heaven Bar, Roadhouse, and other nightlife spots." },
+    { place: "Imperial City Tour – Hue", desc: "Explore historic citadels and royal tombs." },
+    { place: "Perfume River Cruise – Hue", desc: "Scenic boat rides with cultural performances." },
+    { place: "Overnight Cruise – Ha Long Bay", desc: "Explore stunning limestone karsts and caves." },
+    { place: "Kayaking & Island Tours – Ha Long Bay", desc: "Adventure on calm emerald waters." },
+    { place: "Saigon Sunset Cocktail Cruise – HCMC", desc: "Chill on the river with craft cocktails and city views." },
+    { place: "Nightlife Tour – HCMC", desc: "Visit Buddha Bar, High Tide, Villa Project, and Broma Lighthouse." },
+    { place: "Food Tour – HCMC", desc: "Taste authentic southern Vietnamese street food." },
+    { place: "Historical Sightseeing – HCMC", desc: "War Remnants Museum and Cu Chi Tunnels." }
+  ];
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
+  const wheel = document.getElementById('wheel');
+  const spinBtn = document.getElementById('spinBtn');
+  const toursList = document.getElementById('toursList');
 
-      const formData = {
-        name: form.name.value,
-        email: form.email.value,
-        country: form.country.value,
-        travel_date: form.travel_date.value,
-        message: form.message.value,
-      };
-
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          form.reset();
-          status.classList.remove('hidden');
-        } else {
-          alert('Something went wrong. Please try again.');
-        }
-      })
-      .catch(() => alert('Error submitting form'));
+  // Populate tour cards list
+  function renderTours() {
+    toursList.innerHTML = '';
+    tours.forEach((t, i) => {
+      const div = document.createElement('div');
+      div.className = 'tour-card';
+      div.id = 'tour-' + i;
+      div.innerHTML = `<h4>${t.place}</h4><p>${t.desc}</p>`;
+      toursList.appendChild(div);
     });
-  </script>
+  }
+
+  // Create wheel segments
+  function createWheelSegments() {
+    const segmentCount = tours.length;
+    const anglePerSegment = 360 / segmentCount;
+
+    for(let i = 0; i < segmentCount; i++) {
+      const segment = document.createElement('div');
+      segment.className = 'segment';
+      segment.style.transform = `rotate(${anglePerSegment * i}deg) skewY(-${90 - anglePerSegment}deg)`;
+      segment.style.color = 'white';
+      segment.textContent = tours[i].place;
+      wheel.appendChild(segment);
+    }
+  }
+
+  // Spin logic
+  let spinning = false;
+  spinBtn.addEventListener('click', () => {
+    if(spinning) return;
+
+    spinning = true;
+    spinBtn.disabled = true;
+
+    // Random spin degrees between 3 and 6 full rotations + offset to land on a segment
+    const segmentCount = tours.length;
+    const anglePerSegment = 360 / segmentCount;
+    const randomSegment = Math.floor(Math.random() * segmentCount);
+
+    // Calculate spin angle so pointer lands on chosen segment center
+    const spinDegrees = 360 * (3 + Math.random() * 3) + (360 - (randomSegment * anglePerSegment) - anglePerSegment/2);
+
+    wheel.style.transition = 'transform 5s cubic-bezier(0.33, 1, 0.68, 1)';
+    wheel.style.transform = `rotate(${spinDegrees}deg)`;
+
+    // After animation
+    setTimeout(() => {
+      spinning = false;
+      spinBtn.disabled = false;
+
+      // Highlight selected tour card
+      document.querySelectorAll('.tour-card').forEach(card => card.classList.remove('highlighted'));
+      const selectedCard = document.getElementById('tour-' + randomSegment);
+      selectedCard.classList.add('highlighted');
+      selectedCard.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }, 5200);
+  });
+
+  // Initialize
+  renderTours();
+  createWheelSegments();
+</script>
+
 </body>
 </html>
