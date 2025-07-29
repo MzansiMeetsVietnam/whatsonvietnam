@@ -1,256 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WhatsOnVietnam - Spin & Discover Vietnam Tours & More</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>WhatsOnVietnam – Spin & Discover Vietnam Tours</title>
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <style>
-    /* Wheel styles */
+    :root {
+      --wa-primary: #dc2626;   /* red */
+      --wa-secondary: #2563eb; /* blue */
+      --wa-accent: #22c55e;    /* green */
+    }
+    /* ─────────────────────────── Wheel styles ─────────────────────────── */
     .wheel-container {
-      max-width: 320px;
-      margin: 2rem auto 3rem;
+      width: clamp(240px, 60vw, 320px);
       position: relative;
+      aspect-ratio: 1 / 1;
+      margin-inline: auto;
     }
     .wheel {
-      width: 300px;
-      height: 300px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      border: 8px solid #22c55e; /* green border */
-      box-shadow: 0 0 20px #22c55eaa;
-      position: relative;
+      border: 8px solid var(--wa-accent);
+      box-shadow: 0 0 20px var(--wa-accent);
       transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
       cursor: pointer;
       user-select: none;
+      background: radial-gradient(circle at center, #00000022 0%, transparent 80%);
+    }
+    .wheel[data-spinning="true"] {
+      pointer-events: none; /* prevent double‑clicks while spinning */
     }
     .segment {
       position: absolute;
+      inset: 0;
       width: 50%;
       height: 50%;
-      top: 50%;
-      left: 50%;
-      transform-origin: 0% 0%;
-      border: 2px solid white;
+      transform-origin: 0 0;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
       padding-left: 0.75rem;
       font-weight: 700;
-      color: white;
-      font-size: 1rem;
-      text-shadow: 0 0 3px rgba(0,0,0,0.7);
+      font-size: 0.875rem;
+      color: #fff;
+      text-shadow: 0 0 2px #000;
+      border: 2px solid #ffffffaa;
       pointer-events: none;
       user-select: none;
     }
     .pointer {
       position: absolute;
-      top: -20px;
+      top: -28px;
       left: 50%;
       transform: translateX(-50%);
-      width: 0; 
-      height: 0; 
+      width: 0;
+      height: 0;
       border-left: 18px solid transparent;
       border-right: 18px solid transparent;
-      border-bottom: 28px solid #22c55e;
-      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
+      border-bottom: 28px solid var(--wa-accent);
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
       z-index: 10;
     }
-    button#spinBtn {
-      background-color: #dc2626;
-      color: white;
-      font-weight: 700;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 3px 12px rgb(220 38 38 / 0.7);
-      transition: background-color 0.3s ease;
-      margin: 0 auto 3rem;
-      display: block;
-      cursor: pointer;
-      user-select: none;
+    @media (prefers-reduced-motion: reduce) {
+      .wheel {
+        transition: none;
+      }
     }
-    button#spinBtn:disabled {
-      background-color: #f87171;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    /* Highlight */
+    /* ─────────────────────────── Destination highlight ─────────────────────────── */
     .highlighted {
-      border: 3px solid #2563eb !important;
-      box-shadow: 0 0 15px #2563eb !important;
-      background-color: #e0f2fe !important;
-      color: #1e40af !important;
-    }
-    /* Destination card styling */
-    .destination-card {
-      background: white;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
-    }
-    .destination-card:hover {
-      box-shadow: 0 10px 25px rgb(0 0 0 / 0.15);
-      transform: translateY(-5px);
-    }
-    /* Scroll margin for anchors */
-    section {
-      scroll-margin-top: 80px;
+      outline: 3px solid var(--wa-secondary);
+      box-shadow: 0 0 15px var(--wa-secondary);
+      background: #e0f2fe;
+      color: var(--wa-secondary);
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <header class="bg-red-700 text-white p-6 shadow-lg sticky top-0 z-30">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">WhatsOnVietnam</h1>
-      <nav class="space-x-6 text-lg font-semibold">
+<body class="bg-gray-50 text-gray-900 leading-relaxed">
+  <!-- ─────────────────────────── Header ─────────────────────────── -->
+  <header class="bg-red-700 text-white py-4 shadow-lg sticky top-0 z-20">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold tracking-tight">WhatsOnVietnam</h1>
+      <nav class="space-x-6 font-semibold hidden sm:block">
         <a href="#wheel-section" class="hover:underline">Spin & Discover</a>
         <a href="#destinations" class="hover:underline">Destinations</a>
-        <a href="#booking" class="hover:underline">Book Now</a>
+        <a href="#booking" class="hover:underline">Book</a>
         <a href="#map" class="hover:underline">Map</a>
         <a href="#contact" class="hover:underline">Contact</a>
       </nav>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto p-6">
+  <main class="max-w-7xl mx-auto px-4">
+    <!-- ─────────────────────────── Wheel section ─────────────────────────── -->
+    <section id="wheel-section" class="text-center pt-10">
+      <h2 class="text-3xl font-bold mb-4 text-red-700">Spin the Wheel &amp; Discover Vietnam!</h2>
+      <p class="mb-6 max-w-xl mx-auto">Click <span class="font-semibold">🎡 Spin</span> and we'll choose a random adventure for you.</p>
 
-    <section id="wheel-section" class="text-center">
-      <h2 class="text-3xl font-bold mb-4 text-red-700">Spin the Wheel & Discover Vietnam Tours!</h2>
-      <p class="mb-6 text-lg text-gray-700 max-w-xl mx-auto">
-        Click the wheel to spin and get a random destination or tour suggestion. Have fun exploring Vietnam's best spots!
-      </p>
       <div class="wheel-container" aria-label="Spin to discover a tour or destination">
         <div class="pointer" aria-hidden="true"></div>
-        <div class="wheel" id="wheel" role="list" aria-live="polite" aria-atomic="true" tabindex="0"></div>
-        <button id="spinBtn" aria-label="Spin the wheel">Spin the Wheel 🎡</button>
+        <div id="wheel" class="wheel" role="list" aria-live="polite" aria-atomic="true" tabindex="0"></div>
       </div>
+      <button id="spinBtn" class="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-lg font-bold bg-red-700 text-white shadow hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed">
+        🎡 Spin the Wheel
+      </button>
     </section>
 
+    <!-- ─────────────────────────── Destinations (original content kept) ─────────────────────────── -->
+    <!-- NOTE: Images marked with loading="lazy" for performance -->
     <section id="destinations" class="mt-16">
-      <h2 class="text-3xl font-bold text-center mb-8 text-blue-700">Explore Destinations & Tours by Region</h2>
+      <h2 class="text-3xl font-bold text-center mb-8 text-blue-700">Explore Destinations &amp; Tours by Region</h2>
 
+      <!-- Northern Vietnam -->
       <div class="mb-10">
         <h3 class="text-2xl font-semibold text-red-700 mb-4">Northern Vietnam</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <article class="destination-card" id="hanoi" tabindex="0">
+          <!-- Hanoi -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="hanoi" tabindex="0">
             <h4 class="text-xl font-bold text-blue-800 mb-2">Hanoi</h4>
-            <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=600&q=60" alt="Hanoi Old Quarter" class="rounded mb-3 shadow-md" />
+            <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Hanoi Old Quarter" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
             <p>Explore the Old Quarter, street food tours, Hoan Kiem Lake, and the Temple of Literature.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Restaurants-g293924-Hanoi.html" target="_blank" class="text-red-600 hover:underline">Top Restaurants in Hanoi</a></li>
-              <li><a href="https://www.booking.com/city/vn/hanoi.html" target="_blank" class="text-red-600 hover:underline">Hotels in Hanoi</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/han" target="_blank" class="text-red-600 hover:underline">Flights to Hanoi</a></li>
-              <li><a href="https://www.thebamboo.vn/" target="_blank" class="text-red-600 hover:underline">The Bamboo Bar - Rooftop Bar</a></li>
-              <li><a href="https://www.tripadvisor.com/Attractions-g293924-Activities-Hanoi.html" target="_blank" class="text-red-600 hover:underline">Top Attractions</a></li>
+              <li><a href="https://www.tripadvisor.com/Restaurants-g293924-Hanoi.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Top Restaurants in Hanoi</a></li>
+              <li><a href="https://www.booking.com/city/vn/hanoi.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in Hanoi</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/han" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights to Hanoi</a></li>
+              <li><a href="https://www.thebamboo.vn/" target="_blank" rel="noopener" class="text-red-600 hover:underline">The Bamboo Bar - Rooftop Bar</a></li>
+              <li><a href="https://www.tripadvisor.com/Attractions-g293924-Activities-Hanoi.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Top Attractions</a></li>
             </ul>
           </article>
 
-          <article class="destination-card" id="halongbay" tabindex="0">
-            <h4 class="text-xl font-bold text-blue-800 mb-2">Ha Long Bay</h4>
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=60" alt="Ha Long Bay" class="rounded mb-3 shadow-md" />
-            <p>Experience majestic limestone karsts, cruises, and world-famous caves.</p>
+          <!-- Ha Long Bay -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="halongbay" tabindex="0">
+            <h4 class="text-xl font-bold text-blue-800 mb-2">Ha Long Bay</h4>
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Ha Long Bay" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
+            <p>Experience majestic limestone karsts, cruises, and world‑famous caves.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Attraction_Review-g298085-d456847-Reviews-Ha_Long_Bay-Ha_Long_Quang_Ninh_Province.html" target="_blank" class="text-red-600 hover:underline">Ha Long Bay Cruises</a></li>
-              <li><a href="https://www.booking.com/region/vn/ha-long-bay.html" target="_blank" class="text-red-600 hover:underline">Hotels near Ha Long Bay</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/hph" target="_blank" class="text-red-600 hover:underline">Flights to Ha Long Bay</a></li>
+              <li><a href="https://www.tripadvisor.com/Attraction_Review-g298085-d456847-Reviews-Ha_Long_Bay-Ha_Long_Quang_Ninh_Province.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Ha Long Bay Cruises</a></li>
+              <li><a href="https://www.booking.com/region/vn/ha-long-bay.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels near Ha Long Bay</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/hph" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights to Ha Long Bay</a></li>
             </ul>
           </article>
 
-          <article class="destination-card" id="sapa" tabindex="0">
+          <!-- Sapa -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="sapa" tabindex="0">
             <h4 class="text-xl font-bold text-blue-800 mb-2">Sapa</h4>
-            <img src="https://images.unsplash.com/photo-1562887088-154b3d828d7d?auto=format&fit=crop&w=600&q=60" alt="Sapa Mountains" class="rounded mb-3 shadow-md" />
+            <img src="https://images.unsplash.com/photo-1562887088-154b3d828d7d?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Sapa Mountains" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
             <p>Trekking, hill tribe culture, rice terraces, and beautiful mountain scenery.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Attractions-g303906-Activities-Sapa_Lao_Cai_Province.html" target="_blank" class="text-red-600 hover:underline">Sapa Tours</a></li>
-              <li><a href="https://www.booking.com/region/vn/sapa.html" target="_blank" class="text-red-600 hover:underline">Hotels in Sapa</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/vca" target="_blank" class="text-red-600 hover:underline">Flights nearby (nearest airport)</a></li>
+              <li><a href="https://www.tripadvisor.com/Attractions-g303906-Activities-Sapa_Lao_Cai_Province.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Sapa Tours</a></li>
+              <li><a href="https://www.booking.com/region/vn/sapa.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in Sapa</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/vca" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights nearby</a></li>
             </ul>
           </article>
         </div>
       </div>
 
+      <!-- Central Vietnam -->
       <div class="mb-10">
         <h3 class="text-2xl font-semibold text-red-700 mb-4">Central Vietnam</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <article class="destination-card" id="danang" tabindex="0">
-            <h4 class="text-xl font-bold text-blue-800 mb-2">Da Nang</h4>
-            <img src="https://images.unsplash.com/photo-1561919604-369b3f274be9?auto=format&fit=crop&w=600&q=60" alt="Da Nang Beach" class="rounded mb-3 shadow-md" />
+          <!-- Da Nang -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="danang" tabindex="0">
+            <h4 class="text-xl font-bold text-blue-800 mb-2">Da Nang</h4>
+            <img src="https://images.unsplash.com/photo-1561919604-369b3f274be9?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Da Nang Beach" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
             <p>Beautiful beaches, the Dragon Bridge, nightlife at Heaven Bar and rooftop venues.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Restaurants-g298085-Da_Nang.html" target="_blank" class="text-red-600 hover:underline">Best Restaurants in Da Nang</a></li>
-              <li><a href="https://www.booking.com/city/vn/da-nang.html" target="_blank" class="text-red-600 hover:underline">Hotels in Da Nang</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/dad" target="_blank" class="text-red-600 hover:underline">Flights to Da Nang</a></li>
+              <li><a href="https://www.tripadvisor.com/Restaurants-g298085-Da_Nang.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Best Restaurants in Da Nang</a></li>
+              <li><a href="https://www.booking.com/city/vn/da-nang.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in Da Nang</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/dad" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights to Da Nang</a></li>
             </ul>
           </article>
 
-          <article class="destination-card" id="hue" tabindex="0">
+          <!-- Hue -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="hue" tabindex="0">
             <h4 class="text-xl font-bold text-blue-800 mb-2">Hue</h4>
-            <img src="https://images.unsplash.com/photo-1541807084-5c52f38d4ecb?auto=format&fit=crop&w=600&q=60" alt="Hue Imperial City" class="rounded mb-3 shadow-md" />
+            <img src="https://images.unsplash.com/photo-1541807084-5c52f38d4ecb?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Hue Imperial City" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
             <p>Imperial citadel, pagodas, and cultural heritage tours.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Restaurants-g293927-Hue_Thua_Thien_Hue_Province.html" target="_blank" class="text-red-600 hover:underline">Best Restaurants in Hue</a></li>
-              <li><a href="https://www.booking.com/city/vn/hue.html" target="_blank" class="text-red-600 hover:underline">Hotels in Hue</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/hui" target="_blank" class="text-red-600 hover:underline">Flights to Hue</a></li>
+              <li><a href="https://www.tripadvisor.com/Restaurants-g293927-Hue_Thua_Thien_Hue_Province.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Best Restaurants in Hue</a></li>
+              <li><a href="https://www.booking.com/city/vn/hue.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in Hue</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/hui" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights to Hue</a></li>
             </ul>
           </article>
 
-          <article class="destination-card" id="nhatrang" tabindex="0">
-            <h4 class="text-xl font-bold text-blue-800 mb-2">Nha Trang</h4>
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=60" alt="Nha Trang Beach" class="rounded mb-3 shadow-md" />
-            <p>Beaches, scuba diving, nightlife including Nom Nom Restaurant & Cheers Nightclub.</p>
+          <!-- Nha Trang -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="nhatrang" tabindex="0">
+            <h4 class="text-xl font-bold text-blue-800 mb-2">Nha Trang</h4>
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Nha Trang Beach" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
+            <p>Beaches, scuba diving, nightlife including Nom Nom Restaurant &amp; Cheers Nightclub.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Restaurants-g298084-Nha_Trang_Khanh_Hoa_Province.html" target="_blank" class="text-red-600 hover:underline">Top Restaurants in Nha Trang</a></li>
-              <li><a href="https://www.booking.com/city/vn/nha-trang.html" target="_blank" class="text-red-600 hover:underline">Hotels in Nha Trang</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/ntt" target="_blank" class="text-red-600 hover:underline">Flights to Nha Trang</a></li>
-              <li><a href="https://www.nomnomrestaurant.com/" target="_blank" class="text-red-600 hover:underline">Nom Nom Restaurant</a></li>
-              <li><a href="https://cheersnhatrang.com/" target="_blank" class="text-red-600 hover:underline">Cheers Nightclub</a></li>
+              <li><a href="https://www.tripadvisor.com/Restaurants-g298084-Nha_Trang_Khanh_Hoa_Province.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Top Restaurants in Nha Trang</a></li>
+              <li><a href="https://www.booking.com/city/vn/nha-trang.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in Nha Trang</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/ntt" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights to Nha Trang</a></li>
+              <li><a href="https://www.nomnomrestaurant.com/" target="_blank" rel="noopener" class="text-red-600 hover:underline">Nom Nom Restaurant</a></li>
+              <li><a href="https://cheersnhatrang.com/" target="_blank" rel="noopener" class="text-red-600 hover:underline">Cheers Nightclub</a></li>
             </ul>
           </article>
         </div>
       </div>
 
+      <!-- Southern Vietnam -->
       <div class="mb-10">
         <h3 class="text-2xl font-semibold text-red-700 mb-4">Southern Vietnam</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <article class="destination-card" id="hcmc" tabindex="0">
+          <!-- HCMC -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="hcmc" tabindex="0">
             <h4 class="text-xl font-bold text-blue-800 mb-2">Ho Chi Minh City (Saigon)</h4>
-            <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=600&q=60" alt="Saigon Skyline" class="rounded mb-3 shadow-md" />
+            <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Saigon Skyline" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
             <p>Dynamic nightlife with Buddha Bar, High Tide, rooftop bars, and street food tours.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Restaurants-g293925-Ho_Chi_Minh_City.html" target="_blank" class="text-red-600 hover:underline">Best Restaurants in HCMC</a></li>
-              <li><a href="https://www.booking.com/city/vn/ho-chi-minh-city.html" target="_blank" class="text-red-600 hover:underline">Hotels in HCMC</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/sgn" target="_blank" class="text-red-600 hover:underline">Flights to HCMC</a></li>
-              <li><a href="https://buddhabar.com.vn/" target="_blank" class="text-red-600 hover:underline">Buddha Bar</a></li>
-              <li><a href="https://hightidesaigon.com/" target="_blank" class="text-red-600 hover:underline">High Tide Bar</a></li>
+              <li><a href="https://www.tripadvisor.com/Restaurants-g293925-Ho_Chi_Minh_City.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Best Restaurants in HCMC</a></li>
+              <li><a href="https://www.booking.com/city/vn/ho-chi-minh-city.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in HCMC</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/sgn" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights to HCMC</a></li>
+              <li><a href="https://buddhabar.com.vn/" target="_blank" rel="noopener" class="text-red-600 hover:underline">Buddha Bar</a></li>
+              <li><a href="https://hightidesaigon.com/" target="_blank" rel="noopener" class="text-red-600 hover:underline">High Tide Bar</a></li>
             </ul>
           </article>
 
-          <article class="destination-card" id="phuquoc" tabindex="0">
+          <!-- Phu Quoc -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="phuquoc" tabindex="0">
             <h4 class="text-xl font-bold text-blue-800 mb-2">Phu Quoc Island</h4>
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=60" alt="Phu Quoc Beach" class="rounded mb-3 shadow-md" />
+            <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Phu Quoc Beach" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
             <p>Longest cable car in the world, pristine beaches, night markets, and island tours.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Attraction_Review-g303921-d552646-Phu_Quoc_Island_Con_Dao_Islands.html" target="_blank" class="text-red-600 hover:underline">Phu Quoc Attractions</a></li>
-              <li><a href="https://www.booking.com/city/vn/phu-quoc.html" target="_blank" class="text-red-600 hover:underline">Hotels in Phu Quoc</a></li>
-              <li><a href="https://www.skyscanner.net/flights-to/phu" target="_blank" class="text-red-600 hover:underline">Flights to Phu Quoc</a></li>
-              <li><a href="https://phuquocisland.travel/cable-car-worlds-longest/" target="_blank" class="text-red-600 hover:underline">World’s Longest Cable Car</a></li>
+              <li><a href="https://www.tripadvisor.com/Attraction_Review-g303921-d552646-Phu_Quoc_Island_Con_Dao_Islands.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Phu Quoc Attractions</a></li>
+              <li><a href="https://www.booking.com/city/vn/phu-quoc.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in Phu Quoc</a></li>
+              <li><a href="https://www.skyscanner.net/flights-to/phu" target="_blank" rel="noopener" class="text-red-600 hover:underline">Flights to Phu Quoc</a></li>
+              <li><a href="https://phuquocisland.travel/cable-car-worlds-longest/" target="_blank" rel="noopener" class="text-red-600 hover:underline">World’s Longest Cable Car</a></li>
             </ul>
           </article>
 
-          <article class="destination-card" id="mekong" tabindex="0">
+          <!-- Mekong Delta -->
+          <article class="destination-card bg-white p-4 rounded-lg shadow transition hover:shadow-xl hover:-translate-y-1" id="mekong" tabindex="0">
             <h4 class="text-xl font-bold text-blue-800 mb-2">Mekong Delta</h4>
-            <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=600&q=60" alt="Mekong Delta" class="rounded mb-3 shadow-md" />
+            <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&amp;fit=crop&amp;w=600&amp;q=60" alt="Mekong Delta" class="rounded mb-3 shadow-md" loading="lazy" decoding="async" />
             <p>River cruises, floating markets, and cultural villages.</p>
             <ul class="list-disc pl-5 mt-2 text-gray-700">
-              <li><a href="https://www.tripadvisor.com/Attractions-g298080-Activities-My_Tho_Tien_Giang_Province.html" target="_blank" class="text-red-600 hover:underline">Mekong Delta Tours</a></li>
-              <li><a href="https://www.booking.com/region/vn/mekong-delta.html" target="_blank" class="text-red-600 hover:underline">Hotels in Mekong Delta</a></li>
+              <li><a href="https://www.tripadvisor.com/Attractions-g298080-Activities-My_Tho_Tien_Giang_Province.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Mekong Delta Tours</a></li>
+              <li><a href="https://www.booking.com/region/vn/mekong-delta.html" target="_blank" rel="noopener" class="text-red-600 hover:underline">Hotels in Mekong Delta</a></li>
             </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Google Map embed -->
+    <!-- ─────────────────────────── Google Map ─────────────────────────── -->
     <section id="map" class="mt-12 mb-12 max-w-4xl mx-auto">
       <h2 class="text-2xl font-bold text-center mb-4 text-red-700">Vietnam Map</h2>
       <iframe
@@ -259,9 +253,13 @@
         title="Google Map of Vietnam"></iframe>
     </section>
 
+    <!-- ─────────────────────────── Booking form ─────────────────────────── -->
     <section id="booking" class="p-6 bg-white shadow-md rounded-xl max-w-xl mx-auto mb-20">
       <h2 class="text-xl font-bold mb-6 text-center text-red-700">Book Your Vietnam Tour</h2>
-      <form id="bookingForm" class="space-y-4" aria-label="Booking Form">
+      <form id="bookingForm" class="space-y-4" aria-label="Booking Form" autocomplete="off">
+        <!-- Honeypot anti‑bot field -->
+        <input type="text" name="_gotcha" class="hidden" aria-hidden="true" tabindex="-1" />
+
         <input type="text" name="name" placeholder="Your Name" required class="w-full border rounded p-2" />
         <input type="email" name="email" placeholder="Your Email" required class="w-full border rounded p-2" />
         <input type="text" name="country" placeholder="Your Country" required class="w-full border rounded p-2" />
@@ -292,118 +290,121 @@
         </select>
         <textarea name="message" placeholder="Tell us about your trip..." class="w-full border rounded p-2" required></textarea>
         <button type="submit" class="w-full bg-red-700 text-white py-2 rounded hover:bg-red-800 transition">Send Booking</button>
-        <p id="formStatus" class="text-center text-sm mt-2 text-green-700 hidden">Thanks! We’ll contact you soon. 🇿🇦✈️🇻🇳</p>
+        <p id="formStatus" class="text-center text-sm mt-2 text-green-700 hidden">Thanks! We’ll contact you soon. 🇿🇦✈🇻🇳</p>
       </form>
     </section>
   </main>
 
+  <!-- ─────────────────────────── Footer ─────────────────────────── -->
   <footer id="contact" class="bg-blue-900 text-white p-6 text-center">
-    <p>Contact us via WhatsApp: <a href="https://wa.me/27794720078" class="underline hover:text-blue-300">+27 79 472 0078</a></p>
+    <p>Contact us via WhatsApp: <a href="https://wa.me/27794720078" class="underline hover:text-blue-300">+27 79 472 0078</a></p>
     <p>Email: hello@whatsonvietnam.com</p>
     <p>&copy; 2025 WhatsOnVietnam. All rights reserved.</p>
   </footer>
 
+  <!-- ─────────────────────────── Scripts ─────────────────────────── -->
   <script>
-    const wheel = document.getElementById('wheel');
-    const spinBtn = document.getElementById('spinBtn');
+    /* ---------------- Wheel logic ---------------- */
+    (function () {
+      const wheel    = document.getElementById('wheel');
+      const spinBtn  = document.getElementById('spinBtn');
 
-    const segments = [
-      { name: 'Hanoi City Tour', id: 'hanoi' },
-      { name: 'Ha Long Bay Cruise', id: 'halongbay' },
-      { name: 'Sapa Trekking', id: 'sapa' },
-      { name: 'Da Nang Highlights', id: 'danang' },
-      { name: 'Hue Imperial City', id: 'hue' },
-      { name: 'Nha Trang Diving', id: 'nhatrang' },
-      { name: 'Ho Chi Minh City Nightlife', id: 'hcmc' },
-      { name: 'Phu Quoc Island Tours', id: 'phuquoc' },
-      { name: 'Mekong Delta Cruise', id: 'mekong' }
-    ];
+      const segments = [
+        { name: 'Hanoi City Tour',            id: 'hanoi' },
+        { name: 'Ha Long Bay Cruise',         id: 'halongbay' },
+        { name: 'Sapa Trekking',              id: 'sapa' },
+        { name: 'Da Nang Highlights',         id: 'danang' },
+        { name: 'Hue Imperial City',          id: 'hue' },
+        { name: 'Nha Trang Diving',           id: 'nhatrang' },
+        { name: 'Ho Chi Minh Nightlife',      id: 'hcmc' },
+        { name: 'Phu Quoc Island Tours',      id: 'phuquoc' },
+        { name: 'Mekong Delta Cruise',        id: 'mekong' }
+      ];
 
-    // Clear old segments if any
-    wheel.innerHTML = '';
+      /* Build segments dynamically */
+      const segCount = segments.length;
+      const angle    = 360 / segCount;
 
-    const segmentCount = segments.length;
-    const anglePerSegment = 360 / segmentCount;
-
-    segments.forEach((segment, i) => {
-      const segEl = document.createElement('div');
-      segEl.classList.add('segment');
-      segEl.style.transform = `rotate(${i * anglePerSegment}deg) skewY(-${90 - anglePerSegment}deg)`;
-      segEl.style.backgroundColor = i % 2 === 0 ? '#2563eb' : '#dc2626'; // blue/red alternating
-      segEl.textContent = segment.name;
-      wheel.appendChild(segEl);
-    });
-
-    let isSpinning = false;
-
-    spinBtn.addEventListener('click', () => {
-      if (isSpinning) return;
-
-      isSpinning = true;
-      spinBtn.disabled = true;
-
-      // Random segment index
-      const randomIndex = Math.floor(Math.random() * segmentCount);
-
-      // Calculate rotation degrees for smooth stop on segment
-      const spinDegrees = 360 * 6 + (360 - randomIndex * anglePerSegment - anglePerSegment / 2);
-
-      wheel.style.transition = 'transform 5s cubic-bezier(0.33, 1, 0.68, 1)';
-      wheel.style.transform = `rotate(${spinDegrees}deg)`;
-
-      // Remove previous highlights
-      document.querySelectorAll('.destination-card').forEach(card => {
-        card.classList.remove('highlighted');
+      segments.forEach((segment, i) => {
+        const segEl = document.createElement('div');
+        segEl.className = 'segment';
+        segEl.style.transform = `rotate(${i * angle}deg) skewY(-${90 - angle}deg)`;
+        segEl.style.backgroundColor = i % 2 ? 'var(--wa-primary)' : 'var(--wa-secondary)';
+        segEl.textContent = segment.name;
+        wheel.appendChild(segEl);
       });
 
-      setTimeout(() => {
-        isSpinning = false;
-        spinBtn.disabled = false;
+      /* Spin function */
+      function spin() {
+        if (wheel.dataset.spinning === 'true') return;
+        wheel.dataset.spinning = 'true';
+        spinBtn.disabled = true;
 
-        // Highlight selected destination card and scroll to it smoothly
-        const selectedSegment = segments[randomIndex];
-        const selectedCard = document.getElementById(selectedSegment.id);
-        if (selectedCard) {
-          selectedCard.classList.add('highlighted');
-          selectedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        /* Pick random segment */
+        const idx = Math.floor(Math.random() * segCount);
+        const rotateTo = 360 * 6 + (360 - idx * angle - angle / 2); // 6 turns + land in middle of target segment
+
+        wheel.style.transform = `rotate(${rotateTo}deg)`;
+
+        /* After animation */
+        wheel.addEventListener('transitionend', function handler() {
+          wheel.removeEventListener('transitionend', handler);
+          wheel.dataset.spinning = 'false';
+          spinBtn.disabled = false;
+
+          /* Remove old highlights */
+          document.querySelectorAll('.destination-card').forEach(card => card.classList.remove('highlighted'));
+
+          /* Highlight target card & scroll */
+          const target = document.getElementById(segments[idx].id);
+          if (target) {
+            target.classList.add('highlighted');
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, { once: true });
+      }
+
+      spinBtn.addEventListener('click', spin);
+      wheel.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          spin();
         }
-      }, 5200);
-    });
+      });
+    })();
+  </script>
 
-    // Form submission to Google Apps Script
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwNR22wNjm2B89GdLqlTL6glnaAi0NZtAPIQV_MMSff8iTppSJeLYErpEcE2HSlfVo5vQ/exec';
-    const form = document.getElementById('bookingForm');
-    const status = document.getElementById('formStatus');
+  <script>
+    /* ---------------- Booking form submission ---------------- */
+    (function () {
+      const form   = document.getElementById('bookingForm');
+      if (!form) return;
+      const status = document.getElementById('formStatus');
+      const url    = 'https://script.google.com/macros/s/AKfycbwNR22wNjm2B89GdLqlTL6glnaAi0NZtAPIQV_MMSff8iTppSJeLYErpEcE2HSlfVo5vQ/exec';
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
 
-      const formData = {
-        name: form.name.value,
-        email: form.email.value,
-        country: form.country.value,
-        travel_date: form.travel_date.value,
-        region: form.region.value,
-        tour: form.tour.value,
-        message: form.message.value,
-      };
+        /* Anti‑bot honeypot check */
+        if (form._gotcha.value) return; // silently discard bot submissions
 
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .then(response => {
-        if (response.ok) {
+        const data = Object.fromEntries(new FormData(form).entries());
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          if (!res.ok) throw new Error(res.statusText);
+
           form.reset();
           status.classList.remove('hidden');
           setTimeout(() => status.classList.add('hidden'), 7000);
-        } else {
-          alert('Something went wrong. Please try again.');
+        } catch (err) {
+          alert('Submission failed – please try again.');
         }
-      })
-      .catch(() => alert('Error submitting form'));
-    });
+      });
+    })();
   </script>
 </body>
 </html>
